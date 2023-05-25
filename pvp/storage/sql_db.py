@@ -1,10 +1,7 @@
 from logging import info as logging_info
-from sqlite3 import connect, Connection, DatabaseError
-from typing import Literal
+from sqlite3 import connect, Connection
 
-from ..configs.storage import SQLiteConfig
 from ..entity.vacancy import Vacancy
-from ..configs import Config
 
 
 __all__ = ['DBSaverSQLite', 'new_sqlite_db_conn']

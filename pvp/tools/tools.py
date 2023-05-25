@@ -1,8 +1,7 @@
+from ..api.vacancy_service import VacancyServiceInterface
+from ..entity.vacancy import Vacancy
 
-from pvp.api.vacancy_service import VacancyServiceInterface
-# from ..storage.db import VacancySaverInterface
-from pvp.entity.vacancy import Vacancy
-
+# TODO!
 
 __all__ = ['search_vacancies']
 
