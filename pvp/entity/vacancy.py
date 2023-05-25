@@ -54,8 +54,8 @@ class Vacancy(BaseModel):
 
     @staticmethod
     def __verify_class(other: Any):
-        if not isinstance(other, Vacancy):
-            raise TypeError("should be Vacancy object")
+        if not hasattr(other, "salary_min"):
+            raise NotImplemented("! should be implemented 'salary_min' attr !")
 
     def __repr__(self):
         return f"Вакансия {self.title}:\n" \
