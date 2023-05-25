@@ -1,6 +1,7 @@
+import logging
 from datetime import datetime
 from re import sub
-from urllib import request
+from urllib import request, error
 
 from ..entity.hh import HeadHunterAPIVacancies
 from ..entity.vacancy import Vacancy
@@ -25,27 +26,30 @@ class HeadHunterAPI:
         vacancies_items = HeadHunterAPIVacancies.parse_raw(data_raw).items
 
         return [
-            Vacancy.parse_obj({
-                'title': item.name,
-                'url': item.alternate_url,
-                'date_published_timestamp': self._date_to_timestamp(item.published_at),
-                'city': "не указан" if not item.address or not item.address.city else item.address.city,
-                'requirements': self._requirements_formatter(item),
-                'salary_min': 0 if not item.salary else item.salary.minimal,
-                'salary_max': 0 if not item.salary else item.salary.maximum,
-                'currency': 'RUB' if not item.salary else item.salary.currency,
-                }) for item in vacancies_items
+            Vacancy(
+                title=item.name,
+                url=item.alternate_url,
+                date_published_timestamp=self._date_to_timestamp(item.published_at),
+                city="не указан" if not item.address or not item.address.city else item.address.city,
+                requirements=self._requirements_formatter(item),
+                salary_min=0 if not item.salary else item.salary.minimal,
+                salary_max=0 if not item.salary else item.salary.maximum,
+                currency='RUB' if not item.salary else item.salary.currency,
+                ) for item in vacancies_items
         ]
 
     @staticmethod
-    def _load_from_url(url: str) -> str:
+    def _load_from_url(url: str) -> str | None:
         """
         Load json (from url).
         :param url: URL to upload data
         :return: loaded data from url
         """
-        with request.urlopen(url) as url:
-            return url.read().decode()
+        try:
+            with request.urlopen(url) as url:
+                return url.read().decode()
+        except error as e:
+            logging.error(f'error :: {repr(e)} ::')
 
     @staticmethod
     def _requirements_formatter(item) -> str:
@@ -66,4 +70,3 @@ class HeadHunterAPI:
         :return: timestamp
         """
         return int(round(date_time.astimezone(UTC).timestamp()))
-

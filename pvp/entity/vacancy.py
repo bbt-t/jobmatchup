@@ -1,7 +1,8 @@
+import logging
 from datetime import datetime, timezone, date
 from json import loads as json_loads
 from typing import Any, Optional
-from urllib import request
+from urllib import request, error
 
 from pydantic import BaseModel, AnyHttpUrl
 
@@ -53,11 +54,17 @@ class Vacancy(BaseModel):
         )
 
     def currency_exchange_salary_min(self) -> int | None:
-        with request.urlopen(f"https://open.er-api.com/v6/latest/{self.currency}") as url:
-            data = json_loads(url.read().decode())
+        try:
+            with request.urlopen(f"https://open.er-api.com/v6/latest/{self.currency}") as url:
+                data = json_loads(url.read().decode())
 
-        if data["result"] == "success":
-            return data["rates"][self.default_currency] * self.salary_min
+            if data["result"] == "success":
+                return data["rates"][self.default_currency] * self.salary_min
+        except error as e:
+            logging.warning(f'error :: {repr(e)} ::')
+            print(f'! {self.currency} not supported !')
+        except KeyError as e:
+            logging.error(f'error :: {repr(e)} ::')
 
     def make_date_obj(self) -> date:
         """

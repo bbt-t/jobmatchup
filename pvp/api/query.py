@@ -6,6 +6,7 @@ from ..configs import Config
 from .hh_api import HeadHunterAPI
 from .superjob_api import SuperJobAPI
 
+
 __all__ = ['Query']
 
 

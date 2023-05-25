@@ -2,7 +2,12 @@ from json import loads as json_loads
 from datetime import datetime, timezone, timedelta
 from urllib import request
 
-from pvp.entity import api, vacancy, super_job
+from ..entity.super_job import SuperJobAPIVacancies
+from ..entity.vacancy import Vacancy
+from ..entity.api import AppInfo, TokenInfo
+
+
+__all__ = ['SuperJobAPI']
 
 
 class SuperJobAPI:
@@ -13,7 +18,7 @@ class SuperJobAPI:
     _url_refresh_token = '{}/oauth2/refresh_token/?refresh_token={}&client_id={}&client_secret={}'
     _url_search_vacancies = '{}/vacancies?keyword={}&count={}'
 
-    def __init__(self, app_info: api.AppInfo, token_info_info: api.TokenInfo):
+    def __init__(self, app_info: AppInfo, token_info_info: TokenInfo):
         self._app_id, self._secret_key = app_info.dict().values()
         self._token, self._refresh_token, self.expires_in = token_info_info.dict().values()
 
@@ -31,16 +36,14 @@ class SuperJobAPI:
 
     def _set_new_values(self):
         data: dict[str, str | int] = self._refresh_token()
-        refreshed = api.TokenInfo.parse_obj(
-            [
-                data['access_token'],
-                data['refresh_token'],
-                data['expires_in'],
-            ]
+        refreshed_valid = TokenInfo(
+                token=data['access_token'],
+                refresh_token=data['refresh_token'],
+                expires_in=data['expires_in'],
         )
-        self._token, self._refresh_token, self.expires_in = refreshed.dict().values()
+        self._token, self._refresh_token, self.expires_in = refreshed_valid.dict().values()
 
-    def get_vacancies(self, search: str, amt: int | str) -> list[vacancy.Vacancy, ...]:
+    def get_vacancies(self, search: str, amt: int | str) -> list[Vacancy, ...]:
         """
         Search query.
         :param amt: how much to get (no more than 100)
@@ -48,10 +51,10 @@ class SuperJobAPI:
         :return: received vacancies containing the word (search param) in Vacancy-object
         """
         data: str = self._load_from_url(search, amt)
-        vacancies_items = super_job.SuperJobAPIVacancies.parse_raw(data).objects
+        vacancies_items = SuperJobAPIVacancies.parse_raw(data).objects
 
         return [
-            vacancy.Vacancy().parse_obj({
+            Vacancy().parse_obj({
                 'title': item.profession,
                 'url': item.link,
                 'date_published_timestamp': item.date_published,
@@ -94,6 +97,3 @@ class SuperJobAPI:
         return f"Опыт: {item.experience.title}\n" \
                f"Тип занятости: {item.type_of_work.title}" \
                f"Описание: {item.candidat}"
-
-
-__all__ = ['SuperJobAPI']
