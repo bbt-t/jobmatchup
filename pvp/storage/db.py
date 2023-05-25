@@ -43,7 +43,10 @@ class Repository:
         if isinstance(self.db, VacancySaverInterface):
             raise TypeError("Doesn't match the interface")
 
-    def _db_selection(self):
+    def _db_selection(self) -> None:
+        """
+        Select db.
+        """
         match self.cfg:
             case FileConfig():
                 self.db = JSONSaverFile(self.cfg.file_path)

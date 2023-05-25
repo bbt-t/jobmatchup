@@ -8,6 +8,7 @@ from ..entity.vacancy import Vacancy
 
 from dateutil.tz import UTC
 
+
 __all__ = ['HeadHunterAPI']
 
 

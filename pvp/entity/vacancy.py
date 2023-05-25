@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timezone, date
 from json import loads as json_loads
-from typing import Any, Optional
+from typing import Any, Optional, LiteralString
 from urllib import request, error
 
 from pydantic import BaseModel, AnyHttpUrl
@@ -22,36 +22,15 @@ class Vacancy(BaseModel):
     salary_min: Optional[int]
     salary_max: Optional[int]
     currency: str = 'RUB'
-    default_currency: str = 'RUB'
+    _default_currency: str = 'RUB'
 
-    def make_dict(self) -> dict:
-        """
-        Data to dict.
-        """
-        return dict(
-            zip(
-                (
-                    'title',
-                    'url',
-                    'date_published',
-                    'city',
-                    'requirements',
-                    'salary_min',
-                    'salary_max',
-                    'currency'
-                ),
-                (
-                    self.title,
-                    self.url.lower(),
-                    self.date_published_timestamp,
-                    self.city,
-                    self.requirements,
-                    self.salary_min,
-                    self.salary_max,
-                    self.currency
-                ),
-            )
-        )
+    @property
+    def default_currency(self):
+        return self._default_currency
+
+    @default_currency.setter
+    def default_currency(self, currency: LiteralString):
+        self._default_currency = currency
 
     def currency_exchange_salary_min(self) -> int | None:
         try:

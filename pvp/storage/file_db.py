@@ -24,12 +24,17 @@ class JSONSaverFile:
             try:
                 data = load(f)
             except JSONDecodeError:
-                dump([vacancy.make_dict()], f)
+                dump([vacancy.json()], f)
             else:
-                data.append(vacancy.make_dict())
+                data.append(vacancy.json())
                 dump(data, f)
 
     def get_vacancies_by_salary(self, salary_min: int) -> list:
+        """
+        Select vacancies by salary.
+        :param salary_min: salary
+        :return: vacancies objects
+        """
         with open(self.file_path) as f:
             data = loads(f.read())
 
@@ -39,6 +44,10 @@ class JSONSaverFile:
         ]
 
     def delete_vacancy(self, vacancy_url: str) -> None:
+        """
+        Delete vacancy.
+        :param vacancy_url: vacancy url
+        """
         with open(self.file_path, 'x+') as f:
             data: list = loads(f.read())
             for vacancy in data:

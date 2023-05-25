@@ -47,7 +47,3 @@ def show_vacancies(top_vacancies: list[Vacancy, ...]) -> None:
     """
     for item in top_vacancies:
         print(item)
-
-
-def test_import_func():
-    print('YAHOO!!!')
