@@ -40,8 +40,8 @@ class Repository:
         """
         Interface conformance check.
         """
-        if isinstance(self.db, VacancySaverInterface):
-            raise TypeError("Doesn't match the interface")
+        if not isinstance(self.db, VacancySaverInterface):
+            raise NotImplemented("! Doesn't match the interface !")
 
     def _db_selection(self) -> None:
         """
