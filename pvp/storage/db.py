@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from typing import runtime_checkable, Protocol
 
 from .file_db import JSONSaverFile
-from .sql_db import DBSaverSQLite, new_sqlite_db_conn
-from ..entity import Vacancy, FileConfig, SQLiteConfig
+from ..configs import DBConfig
+from ..entity import Vacancy, FileConfig
 
 
 __all__ = ['Repository']
@@ -30,28 +30,18 @@ class Repository:
     DataBase repository.
     """
     db: VacancySaverInterface = field(init=False)
-    cfg: FileConfig | SQLiteConfig
+    cfg: DBConfig
 
     def __post_init__(self) -> None:
         self._db_selection()
-        self._validate()
-
-    def _validate(self):
-        """
-        Interface conformance check.
-        """
-        if not isinstance(self.db, VacancySaverInterface):
-            raise NotImplemented("! Doesn't match the interface !")
 
     def _db_selection(self) -> None:
         """
         Select db.
         """
-        match self.cfg:
+        match self.cfg.file:
             case FileConfig():
                 self.db = JSONSaverFile(self.cfg.file_path)
-            case SQLiteConfig():
-                self.db = DBSaverSQLite(new_sqlite_db_conn(self.cfg.mem, self.cfg.path))
 
             case _:
-                raise TypeError('Unknown config')
+                raise TypeError('! Unknown config struct !')

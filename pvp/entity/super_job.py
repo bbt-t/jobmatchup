@@ -7,7 +7,7 @@ __all__ = ['SuperJobAPIVacancies']
 
 
 class FieldsIDTitle(BaseModel):
-    id: PositiveInt
+    id: NonNegativeInt
     title: str
 
 
@@ -57,8 +57,8 @@ class ObjectsClient(BaseModel):
 
 class SuperJobAPIVacanciesObject(BaseModel):
     address: str | None
-    age_from: PositiveInt
-    age_to: PositiveInt
+    age_from: NonNegativeInt
+    age_to: NonNegativeInt
     agency: FieldsIDTitle
     agreement: bool
     already_sent_on_vacancy: bool
@@ -73,7 +73,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     contact: str | None
     covid_vaccination_requirement: FieldsIDTitle
     currency: Literal['rub', 'uah', 'uzs']
-    date_archived: PositiveInt
+    date_archived: NonNegativeInt
     date_pub_to: PositiveInt
     date_published: PositiveInt
     driving_licence: list

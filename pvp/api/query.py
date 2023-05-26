@@ -32,7 +32,7 @@ class Query:
     def get_hh(self) -> list[Vacancy, ...]:
         return HeadHunterAPI().get_vacancies(search=self.search, amt=self.amt)
 
-    async def _get_hh_async(self):
+    async def _get_hh_async(self) -> None:
         self.result['hh'] = HeadHunterAPI().get_vacancies(search=self.search, amt=self.amt)
 
     def get_sj(self) -> list[Vacancy, ...]:
@@ -41,7 +41,7 @@ class Query:
             self._cfg.token_info,
         ).get_vacancies(search=self.search, amt=self.amt)
 
-    async def _get_sj_async(self):
+    async def _get_sj_async(self) -> None:
         self.result['s_j'] = SuperJobAPI(
             self._cfg.app_info,
             self._cfg.token_info,
@@ -59,10 +59,10 @@ class Query:
             's_j': self.get_sj(),
         }
 
-    async def _get_all_async(self):
-        # async = + ~60%
+    async def _get_all_async(self) -> None:
+        # async = + ~60% performance
         async with asyncio_TaskGroup() as tg:
-            for item in (self._get_hh_async, self._get_hh_async):
+            for item in (self._get_hh_async, self._get_sj_async):
                 tg.create_task(item())
 
     def check_cfg(self):

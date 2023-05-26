@@ -60,12 +60,12 @@ class HeadHunterAPI:
         :return: info
         """
         if item.snippet.requirement is None:
-            req = 'не указано'
+            desc = 'не указано'
         else:
-            req = sub('<[^<]+?>', '', item.snippet.requirement) # <- remove html
+            desc = sub('<[^<]+?>', '', item.snippet.requirement)  # <- remove html
         return f"Опыт: {item.experience.name}\n" \
                f"Тип занятости: {item.employment.name}\n" \
-               f"Описание: {req}"
+               f"Описание: {desc}"
 
     @staticmethod
     def _date_to_timestamp(date_time: datetime) -> int:

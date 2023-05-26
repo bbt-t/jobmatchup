@@ -24,7 +24,7 @@ class SuperJobAPI:
 
         self.time_to_refresh_token = datetime.now(tz=timezone.utc) + timedelta(seconds=self.expires_in)
 
-    def _refresh_token(self) -> dict[str, str | int]:
+    def _refresh_access_info(self) -> dict[str, str | int]:
         """
         Refreshing a rotten token.
         :return: new token, refresh token and expire time (sec)
@@ -35,7 +35,7 @@ class SuperJobAPI:
         return data
 
     def _set_new_values(self):
-        data: dict[str, str | int] = self._refresh_token()
+        data: dict[str, str | int] = self._refresh_access_info()
         refreshed_valid = TokenInfo(
                 token=data['access_token'],
                 refresh_token=data['refresh_token'],
