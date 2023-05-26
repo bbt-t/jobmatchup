@@ -1,8 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, AnyUrl, Field
-
+from pydantic import BaseModel, AnyUrl, Field, NonNegativeInt
 
 __all__ = ['HeadHunterAPIVacancies']
 
@@ -44,9 +43,9 @@ class FieldIDName(BaseModel):
 
 class HeadHunterVacancySalary(BaseModel):
     currency: str
-    minimal: Optional[int] = Field(alias="from")
+    minimal: Optional[NonNegativeInt] = Field(alias="from")
     gross: bool
-    maximum: Optional[int] = Field(alias="to")
+    maximum: Optional[NonNegativeInt] = Field(alias="to")
 
 
 class HeadHunterVacancySnippet(BaseModel):

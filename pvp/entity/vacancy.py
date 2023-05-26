@@ -4,7 +4,7 @@ from json import loads as json_loads
 from typing import Any, Optional, LiteralString
 from urllib import request, error
 
-from pydantic import BaseModel, AnyHttpUrl
+from pydantic import BaseModel, AnyHttpUrl, PositiveInt, NonNegativeInt
 
 
 __all__ = ['Vacancy']
@@ -16,11 +16,11 @@ class Vacancy(BaseModel):
     """
     title: str | None
     url: AnyHttpUrl | None
-    date_published_timestamp: int | None
+    date_published_timestamp: PositiveInt | None
     city: str | None
     requirements: str | None
-    salary_min: Optional[int]
-    salary_max: Optional[int]
+    salary_min: Optional[NonNegativeInt]
+    salary_max: Optional[NonNegativeInt]
     currency: str = 'RUB'
     _default_currency: str = 'RUB'
 

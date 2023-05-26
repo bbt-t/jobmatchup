@@ -59,9 +59,13 @@ class HeadHunterAPI:
         :param item: API answer (in dict)
         :return: info
         """
+        if item.snippet.requirement is None:
+            req = 'не указано'
+        else:
+            req = sub('<[^<]+?>', '', item.snippet.requirement) # <- remove html
         return f"Опыт: {item.experience.name}\n" \
                f"Тип занятости: {item.employment.name}\n" \
-               f"Описание: {sub('<[^<]+?>', '', item.snippet.requirement)}"  # <- remove html
+               f"Описание: {req}"
 
     @staticmethod
     def _date_to_timestamp(date_time: datetime) -> int:

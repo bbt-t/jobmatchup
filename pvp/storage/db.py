@@ -3,7 +3,7 @@ from typing import runtime_checkable, Protocol
 
 from .file_db import JSONSaverFile
 from .sql_db import DBSaverSQLite, new_sqlite_db_conn
-from ..entity import Vacancy, FileConfig, SQLiteConfig, PGConfig
+from ..entity import Vacancy, FileConfig, SQLiteConfig
 
 
 __all__ = ['Repository']
@@ -30,11 +30,11 @@ class Repository:
     DataBase repository.
     """
     db: VacancySaverInterface = field(init=False)
-    cfg: FileConfig | SQLiteConfig | PGConfig
+    cfg: FileConfig | SQLiteConfig
 
     def __post_init__(self) -> None:
-        self._validate()
         self._db_selection()
+        self._validate()
 
     def _validate(self):
         """
@@ -52,7 +52,6 @@ class Repository:
                 self.db = JSONSaverFile(self.cfg.file_path)
             case SQLiteConfig():
                 self.db = DBSaverSQLite(new_sqlite_db_conn(self.cfg.mem, self.cfg.path))
-            case PGConfig():
-                pass
+
             case _:
                 raise TypeError('Unknown config')

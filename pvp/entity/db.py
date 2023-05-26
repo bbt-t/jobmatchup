@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-__all__ = ['FileConfig', 'SQLiteConfig', 'PGConfig']
+__all__ = ['FileConfig', 'SQLiteConfig']
 
 
 class FileConfig(BaseModel):
@@ -11,9 +11,3 @@ class FileConfig(BaseModel):
 class SQLiteConfig(BaseModel):
     path: str
     mem: bool = True
-
-
-# TODO
-class PGConfig(BaseModel):
-    pass
-

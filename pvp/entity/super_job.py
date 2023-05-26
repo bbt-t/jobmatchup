@@ -1,25 +1,25 @@
 from typing import Literal
 
-from pydantic import BaseModel, AnyUrl, Field
+from pydantic import BaseModel, AnyUrl, Field, NonNegativeInt, PositiveInt
 
 
 __all__ = ['SuperJobAPIVacancies']
 
 
 class FieldsIDTitle(BaseModel):
-    id: int
+    id: PositiveInt
     title: str
 
 
 class ObjectsCataloguesPositions(BaseModel):
-    id: int
-    key: int
+    id: PositiveInt
+    key: PositiveInt
     title: str
 
 
 class ObjectsCatalogues(BaseModel):
-    id: int
-    key: int
+    id: PositiveInt
+    key: PositiveInt
     positions: list[ObjectsCataloguesPositions]
     title: str
 
@@ -28,7 +28,7 @@ class ObjectsTown(BaseModel):
     declension: str
     genitive: str
     hasMetro: bool
-    id: int
+    id: PositiveInt
     title: str
 
 
@@ -42,11 +42,11 @@ class ObjectsClient(BaseModel):
     addresses: list | None
     client_logo: AnyUrl | None
     description: str | None
-    id: int | None
+    id: PositiveInt | None
     industry: list
     is_blocked: bool | None
     link: AnyUrl | None
-    registered_date: int | None
+    registered_date: PositiveInt | None
     short_reg: bool | None
     staff_count: str | None
     title: str | None
@@ -57,8 +57,8 @@ class ObjectsClient(BaseModel):
 
 class SuperJobAPIVacanciesObject(BaseModel):
     address: str | None
-    age_from: int
-    age_to: int
+    age_from: PositiveInt
+    age_to: PositiveInt
     agency: FieldsIDTitle
     agreement: bool
     already_sent_on_vacancy: bool
@@ -73,9 +73,9 @@ class SuperJobAPIVacanciesObject(BaseModel):
     contact: str | None
     covid_vaccination_requirement: FieldsIDTitle
     currency: Literal['rub', 'uah', 'uzs']
-    date_archived: int
-    date_pub_to: int
-    date_published: int
+    date_archived: PositiveInt
+    date_pub_to: PositiveInt
+    date_published: PositiveInt
     driving_licence: list
     education: FieldsIDTitle
     experience: FieldsIDTitle
@@ -87,8 +87,8 @@ class SuperJobAPIVacanciesObject(BaseModel):
     firm_name: str
     gender: FieldsIDTitle
     highlight: bool
-    id: int
-    id_client: int
+    id: PositiveInt
+    id_client: PositiveInt
     isBlacklisted: bool
     is_archive: bool
     is_closed: bool
@@ -100,8 +100,8 @@ class SuperJobAPIVacanciesObject(BaseModel):
     maritalstatus: FieldsIDTitle
     metro: list
     moveable: bool
-    salary_minimal: int = Field(alias="payment_from")
-    salary_maximum: int = Field(alias="payment_to")
+    salary_minimal: NonNegativeInt = Field(alias="payment_from")
+    salary_maximum: NonNegativeInt = Field(alias="payment_to")
     phone: str | None
     phones: list[ObjectsPhones] | None
     place_of_work: FieldsIDTitle
@@ -118,5 +118,5 @@ class SuperJobAPIVacancies(BaseModel):
     more: bool
     objects: list[SuperJobAPIVacanciesObject]
     subscription_active: bool
-    subscription_id: int
-    total: int
+    subscription_id: NonNegativeInt
+    total: NonNegativeInt
