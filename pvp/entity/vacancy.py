@@ -7,10 +7,10 @@ from urllib import request, error
 from pydantic import BaseModel, AnyHttpUrl, PositiveInt, NonNegativeInt
 
 
-__all__ = ['Vacancy']
+__all__ = ['VacancyDefault']
 
 
-class Vacancy(BaseModel):
+class VacancyDefault(BaseModel):
     """
     Class Vacancy
     """

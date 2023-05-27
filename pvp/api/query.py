@@ -1,7 +1,7 @@
 from asyncio import run as asyncio_run
 from asyncio import TaskGroup as asyncio_TaskGroup
 
-from ..entity import Vacancy
+from ..entity import VacancyDefault
 from ..configs import Config
 from .hh_api import HeadHunterAPI
 from .superjob_api import SuperJobAPI
@@ -14,7 +14,7 @@ class Query:
     """
     String search.
     """
-    result: dict[str, list[Vacancy, ...]] = dict()
+    result: dict[str, list[VacancyDefault, ...]] = dict()
 
     def __init__(self, cfg: Config, search: str, amt: int = 0, async_work: bool = False):
         """
@@ -29,13 +29,13 @@ class Query:
         self.async_work = async_work
         self._cfg = cfg
 
-    def get_hh(self) -> list[Vacancy, ...]:
+    def get_hh(self) -> list[VacancyDefault, ...]:
         return HeadHunterAPI().get_vacancies(search=self.search, amt=self.amt)
 
     async def _get_hh_async(self) -> None:
         self.result['hh'] = HeadHunterAPI().get_vacancies(search=self.search, amt=self.amt)
 
-    def get_sj(self) -> list[Vacancy, ...]:
+    def get_sj(self) -> list[VacancyDefault, ...]:
         return SuperJobAPI(
             self._cfg.app_info,
             self._cfg.token_info,
@@ -47,7 +47,7 @@ class Query:
             self._cfg.token_info,
         ).get_vacancies(search=self.search, amt=self.amt)
 
-    def get_all(self) -> dict[str, list[Vacancy, ...]]:
+    def get_all(self) -> dict[str, list[VacancyDefault, ...]]:
         self.check_cfg()
 
         if self.async_work:

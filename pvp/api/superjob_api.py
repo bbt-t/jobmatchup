@@ -3,7 +3,7 @@ from json import loads as json_loads
 from urllib import request, error
 
 from ..entity.super_job import SuperJobAPIVacancies
-from ..entity.vacancy import Vacancy
+from ..entity.vacancy import VacancyDefault
 from ..entity.api import AppInfo, TokenInfo
 
 
@@ -41,7 +41,7 @@ class SuperJobAPI:
         )
         self._token, self._refresh_token, self.expires_in = refreshed_valid.dict().values()
 
-    def get_vacancies(self, search: str, amt: int | str) -> list[Vacancy, ...]:
+    def get_vacancies(self, search: str, amt: int | str) -> list[VacancyDefault, ...]:
         """
         Search query.
         :param amt: how much to get (no more than 100)
@@ -52,14 +52,14 @@ class SuperJobAPI:
         vacancies_items = SuperJobAPIVacancies.parse_raw(data).objects
 
         return [
-            Vacancy().parse_obj({
+            VacancyDefault().parse_obj({
                 'title': item.profession,
                 'url': item.link,
                 'date_published_timestamp': item.date_published,
                 'city': item.town.title,
                 'requirements': self._requirements_formatter(item),
-                'salary_min': item.salary_minimal,
-                'salary_max': item.salary_maximum,
+                'salary_min': 0 if not item.salary_minimal else item.salary_minimal,
+                'salary_max': 0 if not item.salary_maximum else item.salary_maximum,
                 'currency': item.currency,
             }) for item in vacancies_items
         ]

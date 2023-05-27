@@ -4,7 +4,7 @@ from re import sub
 from urllib import request, error
 
 from ..entity.hh import HeadHunterAPIVacancies
-from ..entity.vacancy import Vacancy
+from ..entity.vacancy import VacancyDefault
 
 from dateutil.tz import UTC
 
@@ -16,7 +16,7 @@ class HeadHunterAPI:
     """
     Class for working with API HeadHunter.
     """
-    def get_vacancies(self, search: str, amt: int | str) -> list[Vacancy, ...]:
+    def get_vacancies(self, search: str, amt: int | str) -> list[VacancyDefault, ...]:
         """
         Search query.
         :param amt: how much to get (no more than 100)
@@ -27,14 +27,14 @@ class HeadHunterAPI:
         vacancies_items = HeadHunterAPIVacancies.parse_raw(data_raw).items
 
         return [
-            Vacancy(
+            VacancyDefault(
                 title=item.name,
                 url=item.alternate_url,
                 date_published_timestamp=self._date_to_timestamp(item.published_at),
                 city="не указан" if not item.address or not item.address.city else item.address.city,
                 requirements=self._requirements_formatter(item),
-                salary_min=0 if not item.salary else item.salary.minimal,
-                salary_max=0 if not item.salary else item.salary.maximum,
+                salary_min=0 if not item.salary or not item.salary.minimal else item.salary.minimal,
+                salary_max=0 if not item.salary or not item.salary.maximum else item.salary.maximum,
                 currency='RUB' if not item.salary else item.salary.currency,
                 ) for item in vacancies_items
         ]

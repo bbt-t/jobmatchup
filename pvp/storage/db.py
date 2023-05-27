@@ -3,7 +3,7 @@ from typing import runtime_checkable, Protocol
 
 from .file_db import JSONSaverFile
 from ..configs import DBConfig
-from ..entity import Vacancy, FileConfig
+from ..entity import VacancyDefault, FileConfig
 
 
 __all__ = ['Repository']
@@ -14,7 +14,7 @@ class VacancySaverInterface(Protocol):
     """
     Saving data interface.
     """
-    def add_vacancy(self, vacancy: Vacancy) -> None:
+    def add_vacancy(self, vacancy: VacancyDefault) -> None:
         ...
 
     def get_vacancies_by_salary(self, salary_min: int) -> list:

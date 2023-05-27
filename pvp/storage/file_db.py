@@ -1,6 +1,6 @@
 from json import dump, dumps, load, loads, JSONDecodeError
 
-from ..entity.vacancy import Vacancy
+from ..entity.vacancy import VacancyDefault
 
 
 __all__ = ['JSONSaverFile']
@@ -15,7 +15,7 @@ class JSONSaverFile:
     def __init__(self, file_path: str):
         self.file_path = file_path
 
-    def add_vacancy(self, vacancy: Vacancy) -> None:
+    def add_vacancy(self, vacancy: VacancyDefault) -> None:
         """
         Save vacancy in DB.
         :param vacancy: Vacancy object

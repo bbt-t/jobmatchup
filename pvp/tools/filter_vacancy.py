@@ -17,9 +17,23 @@ def filter_vacancies(vacancies, _):
 
 @filter_vacancies.register
 def _(vacancies: dict, filter_words: list):
-    pass
+    return {
+        k: [
+            vacancy for vacancy in vacancies if any(
+                [
+                    w in vacancy.requirements for w in filter_words
+                ]
+            )
+        ] for k, v in vacancies.items()
+    }
 
 
 @filter_vacancies.register
 def _(vacancies: list, filter_words: list):
-    return [vacancy for vacancy in vacancies if any([w in vacancy.requirements for w in filter_words])]
+    return [
+        vacancy for vacancy in vacancies if any(
+            [
+                w in vacancy.requirements for w in filter_words
+            ]
+        )
+    ]
