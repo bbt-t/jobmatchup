@@ -1,6 +1,6 @@
+import logging
 from json import loads as json_loads
-from datetime import datetime, timezone, timedelta
-from urllib import request
+from urllib import request, error
 
 from ..entity.super_job import SuperJobAPIVacancies
 from ..entity.vacancy import Vacancy
@@ -21,8 +21,6 @@ class SuperJobAPI:
     def __init__(self, app_info: AppInfo, token_info_info: TokenInfo):
         self._app_id, self._secret_key = app_info.dict().values()
         self._token, self._refresh_token, self.expires_in = token_info_info.dict().values()
-
-        self.time_to_refresh_token = datetime.now(tz=timezone.utc) + timedelta(seconds=self.expires_in)
 
     def _refresh_access_info(self) -> dict[str, str | int]:
         """
@@ -73,18 +71,21 @@ class SuperJobAPI:
         :param search: what we want to find
         :return: loaded data
         """
-        if self.time_to_refresh_token.minute < 5:
-            self._set_new_values()
-
         url = self._url_search_vacancies.format(self._host, search, amt)
         header = {
             "Content-Type": "application/x-www-form-urlencoded",
             "X-Api-App-Id": self._secret_key,
             "Authorization": f"Bearer {self._token}"
         }
+        try:
+            with request.urlopen(request.Request(url=url, headers=header)) as url:
+                data = url.read().decode()
+        except error.HTTPError as e:
+            logging.info(f'{repr(e)}')
+            if e.code == 410:
+                logging.info('! Token expired ... try to refresh token ... !')
+                self._set_new_values()
 
-        with request.urlopen(request.Request(url=url, headers=header)) as url:
-            data = url.read().decode()
         return data
 
     @staticmethod

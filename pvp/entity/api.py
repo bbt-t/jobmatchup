@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, NonNegativeInt
 
 
 __all__ = ['AppInfo', 'AuthInfo', 'TokenInfo']
@@ -41,7 +41,7 @@ class TokenInfo(BaseModel):
         title='refresh token',
         description='To refresh the token',
     )
-    expires_in: int = Field(
+    expires_in: NonNegativeInt = Field(
         None,
         title='expires in',
         description='How long the token lives (seconds)',
