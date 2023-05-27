@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 
 from pydantic import BaseModel, AnyUrl, Field, NonNegativeInt
 
@@ -42,7 +42,7 @@ class FieldIDName(BaseModel):
 
 
 class HeadHunterVacancySalary(BaseModel):
-    currency: str
+    currency: Literal["UZS", "USD", "UAH", "RUR", "KZT", "KGS", "GEL", "EUR", "BYR", "AZN"]
     minimal: Optional[NonNegativeInt] = Field(alias="from")
     gross: bool
     maximum: Optional[NonNegativeInt] = Field(alias="to")
