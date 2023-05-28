@@ -1,11 +1,10 @@
 import logging
 from datetime import datetime, timezone, date
 from json import loads as json_loads
-from typing import Any, Optional, LiteralString
+from typing import Any, LiteralString
 from urllib import request, error
 
-from pydantic import BaseModel, AnyHttpUrl, PositiveInt, NonNegativeInt
-
+from pydantic import BaseModel, AnyHttpUrl, PositiveInt, NonNegativeInt, Field
 
 __all__ = ['VacancyDefault']
 
@@ -19,8 +18,8 @@ class VacancyDefault(BaseModel):
     date_published_timestamp: PositiveInt | None
     city: str | None
     requirements: str | None
-    salary_min: Optional[NonNegativeInt]
-    salary_max: Optional[NonNegativeInt]
+    salary_min: NonNegativeInt = Field(default=0)
+    salary_max: NonNegativeInt = Field(default=0)
     currency: str = 'RUB'
     _default_currency: str = 'RUB'
 

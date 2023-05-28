@@ -3,7 +3,7 @@
 </p>	
 
 ***
-### About
+### about
 
 > Personal vacancies Parser
 
@@ -16,3 +16,7 @@
 </details>
 
 ***
+
+### usage
+
+`see examples` [> Examples <]()

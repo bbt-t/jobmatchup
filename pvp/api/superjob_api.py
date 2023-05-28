@@ -58,8 +58,8 @@ class SuperJobAPI:
                 'date_published_timestamp': item.date_published,
                 'city': item.town.title,
                 'requirements': self._requirements_formatter(item),
-                'salary_min': 0 if not item.salary_minimal else item.salary_minimal,
-                'salary_max': 0 if not item.salary_maximum else item.salary_maximum,
+                'salary_min': item.salary_minimal,
+                'salary_max': item.salary_maximum,
                 'currency': item.currency,
             }) for item in vacancies_items
         ]

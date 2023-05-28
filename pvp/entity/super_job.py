@@ -88,7 +88,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     gender: FieldsIDTitle
     highlight: bool
     id: PositiveInt
-    id_client: PositiveInt
+    id_client: NonNegativeInt
     isBlacklisted: bool
     is_archive: bool
     is_closed: bool

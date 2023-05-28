@@ -35,7 +35,7 @@ class HeadHunterAPI:
                 requirements=self._requirements_formatter(item),
                 salary_min=0 if not item.salary or not item.salary.minimal else item.salary.minimal,
                 salary_max=0 if not item.salary or not item.salary.maximum else item.salary.maximum,
-                currency='RUB' if not item.salary else item.salary.currency,
+                currency='RUB' if not item.salary else self._currency_mapping(item.salary.currency),
                 ) for item in vacancies_items
         ]
 
@@ -51,6 +51,16 @@ class HeadHunterAPI:
                 return url.read().decode()
         except error as e:
             logging.error(f'error :: {repr(e)} ::')
+
+    @staticmethod
+    def _currency_mapping(currency: str) -> str | None:
+        currency_map: dict = {
+            'RUR': 'RUB',
+            'BYR': 'BYN',
+            'USD': 'USD',
+            'KZT': 'KZT',
+        }
+        return currency_map.get(currency)
 
     @staticmethod
     def _requirements_formatter(item) -> str:
