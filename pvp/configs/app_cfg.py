@@ -19,7 +19,7 @@ class Config:
     """
     without_auth: bool = True
 
-    cfg_file_path: str = Path(__file__).parent.parent.parent
+    cfg_file_path: str = None
 
     login_pass_auth: bool = False
 
