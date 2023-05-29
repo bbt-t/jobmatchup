@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import LiteralString
 
-from pvp.entity.db import FileConfig
+from jobmatchup.entity.db import FileConfig
 
 
 __all__ = ["DBConfig"]
