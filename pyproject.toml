@@ -5,8 +5,8 @@ description = "Personal Vacancies Parse"
 authors = ["bbt-t <zlukcss@gmail.com>"]
 readme = "README.md"
 license = "MIT"
-homepage = "https://github.com/bbt-t/pvp"
-repository = "https://github.com/bbt-t/pvp"
+homepage = "https://github.com/bbt-t/jobmatchup"
+repository = "https://github.com/bbt-t/jobmatchup"
 include = [
     "LICENSE",
 ]
