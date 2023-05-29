@@ -17,6 +17,12 @@
 
 ***
 
+## install
+
+`pip install jobmatchup`
+
+***
+
 ### usage
 
 `see examples` [> Examples <](https://github.com/bbt-t/pvp/tree/main/examples)
