@@ -63,7 +63,7 @@ def test_init_cfg_without_auth(get_cfg_without_auth):
 
 
 def test_init_hasattr_cfg_without_auth(get_cfg_without_auth):
-    assert hasattr(get_cfg_without_auth, 'from_toml') is True
-    assert hasattr(get_cfg_without_auth, 'auth_info') is False
-    assert hasattr(get_cfg_without_auth, 'app_info') is False
-    assert hasattr(get_cfg_without_auth, 'token_info') is False
+    assert hasattr(get_cfg_without_auth, "from_toml") is True
+    assert hasattr(get_cfg_without_auth, "auth_info") is False
+    assert hasattr(get_cfg_without_auth, "app_info") is False
+    assert hasattr(get_cfg_without_auth, "token_info") is False

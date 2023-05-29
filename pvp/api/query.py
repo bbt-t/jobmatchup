@@ -7,16 +7,19 @@ from .hh_api import HeadHunterAPI
 from .superjob_api import SuperJobAPI
 
 
-__all__ = ['Query']
+__all__ = ["Query"]
 
 
 class Query:
     """
     String search.
     """
+
     result: dict[str, list[VacancyDefault, ...]] = dict()
 
-    def __init__(self, cfg: Config, search: str, amt: int = 0, async_work: bool = False):
+    def __init__(
+        self, cfg: Config, search: str, amt: int = 0, async_work: bool = False
+    ):
         """
         Init class.
         :param cfg: config
@@ -33,7 +36,9 @@ class Query:
         return HeadHunterAPI().get_vacancies(search=self.search, amt=self.amt)
 
     async def _get_hh_async(self) -> None:
-        self.result['hh'] = HeadHunterAPI().get_vacancies(search=self.search, amt=self.amt)
+        self.result["hh"] = HeadHunterAPI().get_vacancies(
+            search=self.search, amt=self.amt
+        )
 
     def get_sj(self) -> list[VacancyDefault, ...]:
         return SuperJobAPI(
@@ -42,7 +47,7 @@ class Query:
         ).get_vacancies(search=self.search, amt=self.amt)
 
     async def _get_sj_async(self) -> None:
-        self.result['s_j'] = SuperJobAPI(
+        self.result["s_j"] = SuperJobAPI(
             self._cfg.app_info,
             self._cfg.token_info,
         ).get_vacancies(search=self.search, amt=self.amt)
@@ -55,8 +60,8 @@ class Query:
             return self.result
 
         return {
-            'hh': self.get_hh(),
-            's_j': self.get_sj(),
+            "hh": self.get_hh(),
+            "s_j": self.get_sj(),
         }
 
     async def _get_all_async(self) -> None:
@@ -67,6 +72,8 @@ class Query:
 
     def check_cfg(self):
         if self._cfg.without_auth:
-            raise ValueError('! you can only use >> get_hh << method !')
-        if not all((*self._cfg.token_info.dict().values(), *self._cfg.app_info.dict().values())):
-            raise ValueError('! authentication config not found !')
+            raise ValueError("! you can only use >> get_hh << method !")
+        if not all(
+            (*self._cfg.token_info.dict().values(), *self._cfg.app_info.dict().values())
+        ):
+            raise ValueError("! authentication config not found !")

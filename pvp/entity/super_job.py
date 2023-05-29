@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import BaseModel, AnyUrl, Field, NonNegativeInt, PositiveInt
 
 
-__all__ = ['SuperJobAPIVacancies']
+__all__ = ["SuperJobAPIVacancies"]
 
 
 class FieldsIDTitle(BaseModel):
@@ -72,7 +72,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     compensation: None
     contact: str | None
     covid_vaccination_requirement: FieldsIDTitle
-    currency: Literal['rub', 'uah', 'uzs']
+    currency: Literal["rub", "uah", "uzs"]
     date_archived: NonNegativeInt
     date_pub_to: PositiveInt
     date_published: PositiveInt

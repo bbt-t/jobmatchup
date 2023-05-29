@@ -3,14 +3,15 @@ from json import dump, dumps, load, loads, JSONDecodeError
 from ..entity.vacancy import VacancyDefault
 
 
-__all__ = ['JSONSaverFile']
+__all__ = ["JSONSaverFile"]
 
 
 class JSONSaverFile:
     """
     Class for store in file (json).
     """
-    __slots__ = 'file_path'
+
+    __slots__ = "file_path"
 
     def __init__(self, file_path: str):
         self.file_path = file_path
@@ -20,7 +21,7 @@ class JSONSaverFile:
         Save vacancy in DB.
         :param vacancy: Vacancy object
         """
-        with open(self.file_path, 'a+') as f:
+        with open(self.file_path, "a+") as f:
             try:
                 data = load(f)
             except JSONDecodeError:
@@ -38,19 +39,16 @@ class JSONSaverFile:
         with open(self.file_path) as f:
             data = loads(f.read())
 
-        return [
-            vacancy for vacancy in data
-            if vacancy.get('salary_min') <= salary_min
-        ]
+        return [vacancy for vacancy in data if vacancy.get("salary_min") <= salary_min]
 
     def delete_vacancy(self, vacancy_url: str) -> None:
         """
         Delete vacancy.
         :param vacancy_url: vacancy url
         """
-        with open(self.file_path, 'x+') as f:
+        with open(self.file_path, "x+") as f:
             data: list = loads(f.read())
             for vacancy in data:
-                if vacancy.get('url') == vacancy_url:
+                if vacancy.get("url") == vacancy_url:
                     data.remove(vacancy)
             f.write(dumps(data))

@@ -5,7 +5,7 @@ from typing import LiteralString
 from pvp.entity.db import FileConfig
 
 
-__all__ = ['DBConfig']
+__all__ = ["DBConfig"]
 
 
 @dataclass

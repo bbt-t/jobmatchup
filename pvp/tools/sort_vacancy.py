@@ -1,7 +1,7 @@
 from functools import singledispatch
 
 
-__all__ = ['sort_vacancies_by_salary']
+__all__ = ["sort_vacancies_by_salary"]
 
 
 @singledispatch
@@ -9,7 +9,7 @@ def sort_vacancies_by_salary(vacancies):
     """
     :param vacancies:
     """
-    raise TypeError(f'! Value type > {vacancies.__class__} < is not correct !')
+    raise TypeError(f"! Value type > {vacancies.__class__} < is not correct !")
 
 
 @sort_vacancies_by_salary.register

@@ -6,7 +6,7 @@ from ..configs import DBConfig
 from ..entity import VacancyDefault, FileConfig
 
 
-__all__ = ['Repository']
+__all__ = ["Repository"]
 
 
 @runtime_checkable
@@ -14,6 +14,7 @@ class VacancySaverInterface(Protocol):
     """
     Saving data interface.
     """
+
     def add_vacancy(self, vacancy: VacancyDefault) -> None:
         ...
 
@@ -29,6 +30,7 @@ class Repository:
     """
     DataBase repository.
     """
+
     db: VacancySaverInterface = field(init=False)
     cfg: DBConfig
 
@@ -44,4 +46,4 @@ class Repository:
                 self.db = JSONSaverFile(self.cfg.file_path)
 
             case _:
-                raise TypeError('! Unknown config struct !')
+                raise TypeError("! Unknown config struct !")

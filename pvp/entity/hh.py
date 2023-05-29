@@ -3,7 +3,7 @@ from typing import Optional, Literal
 
 from pydantic import BaseModel, AnyUrl, Field, NonNegativeInt
 
-__all__ = ['HeadHunterAPIVacancies']
+__all__ = ["HeadHunterAPIVacancies"]
 
 
 class HeadHunterVacancyAddress(BaseModel):
@@ -42,7 +42,9 @@ class FieldIDName(BaseModel):
 
 
 class HeadHunterVacancySalary(BaseModel):
-    currency: Literal["UZS", "USD", "UAH", "RUR", "KZT", "KGS", "GEL", "EUR", "BYR", "AZN"]
+    currency: Literal[
+        "UZS", "USD", "UAH", "RUR", "KZT", "KGS", "GEL", "EUR", "BYR", "AZN"
+    ]
     minimal: Optional[NonNegativeInt] = Field(alias="from")
     gross: bool
     maximum: Optional[NonNegativeInt] = Field(alias="to")

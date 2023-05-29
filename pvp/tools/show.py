@@ -4,7 +4,7 @@ from pathlib import Path
 from pprint import pprint
 
 
-__all__ = ['show_vacancies', 'show_vacancies_from_json']
+__all__ = ["show_vacancies", "show_vacancies_from_json"]
 
 
 @singledispatch
@@ -13,7 +13,7 @@ def show_vacancies(vacancies):
     декоратор из functools
     :param vacancies:
     """
-    raise TypeError(f'! Value type > {vacancies.__class__} < is not correct !')
+    raise TypeError(f"! Value type > {vacancies.__class__} < is not correct !")
 
 
 @show_vacancies.register

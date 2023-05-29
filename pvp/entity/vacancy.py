@@ -6,13 +6,14 @@ from urllib import request, error
 
 from pydantic import BaseModel, AnyHttpUrl, PositiveInt, NonNegativeInt, Field
 
-__all__ = ['VacancyDefault']
+__all__ = ["VacancyDefault"]
 
 
 class VacancyDefault(BaseModel):
     """
     Class Vacancy
     """
+
     title: str | None
     url: AnyHttpUrl | None
     date_published_timestamp: PositiveInt | None
@@ -20,8 +21,8 @@ class VacancyDefault(BaseModel):
     requirements: str | None
     salary_min: NonNegativeInt = Field(default=0)
     salary_max: NonNegativeInt = Field(default=0)
-    currency: str = 'RUB'
-    _default_currency: str = 'RUB'
+    currency: str = "RUB"
+    _default_currency: str = "RUB"
 
     @property
     def default_currency(self):
@@ -33,36 +34,42 @@ class VacancyDefault(BaseModel):
 
     def currency_exchange_salary_min(self) -> int | None:
         try:
-            with request.urlopen(f"https://open.er-api.com/v6/latest/{self.currency}") as url:
+            with request.urlopen(
+                f"https://open.er-api.com/v6/latest/{self.currency}"
+            ) as url:
                 data = json_loads(url.read().decode())
 
             if data["result"] == "success":
                 return data["rates"][self.default_currency] * self.salary_min
         except error as e:
-            logging.warning(f'error :: {repr(e)} ::')
-            print(f'! {self.currency} not supported !')
+            logging.warning(f"error :: {repr(e)} ::")
+            print(f"! {self.currency} not supported !")
         except KeyError as e:
-            logging.error(f'error :: {repr(e)} ::')
+            logging.error(f"error :: {repr(e)} ::")
 
     def make_date_obj(self) -> date:
         """
         Human-readable date.
         :return: date object
         """
-        return datetime.fromtimestamp(self.date_published_timestamp, tz=timezone.utc).date()
+        return datetime.fromtimestamp(
+            self.date_published_timestamp, tz=timezone.utc
+        ).date()
 
     @staticmethod
     def __verify_class(other: Any):
         if not hasattr(other, "salary_min"):
-            raise NotImplemented("! should be implemented 'salary_min' attr !")
+            raise NotImplementedError("! should be implemented 'salary_min' attr !")
 
     def __repr__(self):
-        return f"Вакансия {self.title}:\n" \
-               f"{self.url}\n" \
-               f"{self.make_date_obj()}\n" \
-               f"{self.city}\n" \
-               f"{self.requirements}\n" \
-               f"{self.salary_min} - {self.salary_max} {self.currency}\n"
+        return (
+            f"Вакансия {self.title}:\n"
+            f"{self.url}\n"
+            f"{self.make_date_obj()}\n"
+            f"{self.city}\n"
+            f"{self.requirements}\n"
+            f"{self.salary_min} - {self.salary_max} {self.currency}\n"
+        )
 
     def __eq__(self, other):
         self.__verify_class(other)
