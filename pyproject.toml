@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pvp"
+name = "jobmatchup"
 version = "0.1.0"
 description = "Personal Vacancies Parse"
 authors = ["bbt-t <zlukcss@gmail.com>"]

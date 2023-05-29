@@ -1,5 +1,5 @@
-from pvp.configs import DBConfig, Config
-from pvp.entity import FileConfig
+from jobmatchup.configs import DBConfig, Config
+from jobmatchup.entity import FileConfig
 
 
 from pytest import fixture
