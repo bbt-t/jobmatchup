@@ -27,13 +27,13 @@ class ObjectsCatalogues(BaseModel):
 class ObjectsTown(BaseModel):
     declension: str
     genitive: str
-    hasMetro: bool
+    has_metro: bool = Field(alias="hasMetro")
     id: PositiveInt
     title: str
 
 
 class ObjectsPhones(BaseModel):
-    additionalNumber: str | None
+    additional_number: str | None = Field(alias="additionalNumber")
     number: str | None
 
 
@@ -63,7 +63,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     agreement: bool
     already_sent_on_vacancy: bool
     anonymous: bool
-    canEdit: bool
+    can_edit: bool = Field(alias="canEdit")
     candidat: str
     catalogues: list[ObjectsCatalogues]
     children: FieldsIDTitle
@@ -89,7 +89,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     highlight: bool
     id: PositiveInt
     id_client: NonNegativeInt
-    isBlacklisted: bool
+    is_blacklisted: bool = Field(alias="isBlacklisted")
     is_archive: bool
     is_closed: bool
     is_storage: bool
@@ -97,7 +97,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     latitude: float | None
     link: AnyUrl
     longitude: float | None
-    maritalstatus: FieldsIDTitle
+    marital_status: FieldsIDTitle = Field(alias="maritalstatus")
     metro: list
     moveable: bool
     salary_minimal: NonNegativeInt = Field(alias="payment_from")
@@ -110,7 +110,7 @@ class SuperJobAPIVacanciesObject(BaseModel):
     response_info: list
     town: ObjectsTown
     type_of_work: FieldsIDTitle
-    vacancyRichText: str
+    vacancy_rich_text: str = Field(alias="vacancyRichText")
     work: None
 
 

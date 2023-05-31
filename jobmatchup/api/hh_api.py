@@ -39,11 +39,11 @@ class HeadHunterAPI:
                 else item.address.city,
                 requirements=self._requirements_formatter(item),
                 salary_min=0
-                if not item.salary or not item.salary.minimal
-                else item.salary.minimal,
+                if not item.salary or not item.salary.salary_minimal
+                else item.salary.salary_minimal,
                 salary_max=0
-                if not item.salary or not item.salary.maximum
-                else item.salary.maximum,
+                if not item.salary or not item.salary.salary_maximum
+                else item.salary.salary_maximum,
                 currency="RUB"
                 if not item.salary
                 else self._currency_mapping(item.salary.currency),
