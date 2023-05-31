@@ -51,21 +51,21 @@ class Config:
 
     def _load_token(self):
         self.token_info = TokenInfo(
-            token=getenv("TOKEN"),
-            refresh_token=getenv("REFRESH_TOKEN"),
-            expires_in=getenv("EXPIRES_IN"),
+            token=getenv("SJ_TOKEN"),
+            refresh_token=getenv("SJ_REFRESH_TOKEN"),
+            expires_in=getenv("SJ_EXPIRES_IN"),
         )
 
     def _load_app_info(self):
         self.app_info = AppInfo(
-            app_id=getenv("APP_ID"),
-            secret_key=getenv("SECRET_KEY"),
+            app_id=getenv("SJ_APP_ID"),
+            secret_key=getenv("SJ_SECRET_KEY"),
         )
 
     def _load_auth_info(self) -> None:
         self.auth_info = AuthInfo(
-            login=getenv("LOGIN"),
-            password=getenv("PASSWORD"),
+            login=getenv("SJ_LOGIN"),
+            password=getenv("SJ_PASSWORD"),
         )
 
     def _load_cfg_from_toml(self) -> dict[str, Any]:
