@@ -25,9 +25,9 @@ class JSONSaverFile:
             try:
                 data = load(f)
             except JSONDecodeError:
-                dump([vacancy.json()], f)
+                dump([vacancy.json(by_alias=True)], f)
             else:
-                data.append(vacancy.json())
+                data.append(vacancy.json(by_alias=True))
                 dump(data, f)
 
     def get_vacancies_by_salary(self, salary_min: int) -> list:

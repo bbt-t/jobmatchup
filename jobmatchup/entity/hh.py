@@ -45,9 +45,9 @@ class HeadHunterVacancySalary(BaseModel):
     currency: Literal[
         "UZS", "USD", "UAH", "RUR", "KZT", "KGS", "GEL", "EUR", "BYR", "AZN"
     ]
-    minimal: Optional[NonNegativeInt] = Field(alias="from")
+    salary_minimal: Optional[NonNegativeInt] = Field(alias="from")
     gross: bool
-    maximum: Optional[NonNegativeInt] = Field(alias="to")
+    salary_maximum: Optional[NonNegativeInt] = Field(alias="to")
 
 
 class HeadHunterVacancySnippet(BaseModel):
