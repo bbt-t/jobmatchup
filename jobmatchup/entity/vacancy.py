@@ -4,9 +4,15 @@ from json import loads as json_loads
 from typing import Any, LiteralString
 from urllib import request, error
 
+from orjson import dumps, loads
 from pydantic import BaseModel, AnyHttpUrl, PositiveInt, NonNegativeInt, Field
 
 __all__ = ["VacancyDefault"]
+
+
+def orjson_dumps(v, *, default):
+    # orjson.dumps returns bytes, to match standard json.dumps we need to decode
+    return dumps(v, default=default).decode()
 
 
 class VacancyDefault(BaseModel):
@@ -23,6 +29,14 @@ class VacancyDefault(BaseModel):
     salary_max: NonNegativeInt = Field(default=0)
     currency: str = "RUB"
     _default_currency: str = "RUB"
+
+    class Config:
+        """
+        Fast serialize.
+        """
+
+        json_loads = loads
+        json_dumps = orjson_dumps
 
     @property
     def default_currency(self):
