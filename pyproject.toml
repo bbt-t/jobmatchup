@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jobmatchup"
-version = "0.2.1"
+version = "0.2.2"
 description = "Personal Vacancies Parse"
 authors = ["bbt-t <zlukcss@gmail.com>"]
 readme = "README.md"
