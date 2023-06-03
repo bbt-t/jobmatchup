@@ -5,11 +5,11 @@ __all__ = ["filter_vacancies"]
 
 
 @singledispatch
-def filter_vacancies(vacancies, _):
+def filter_vacancies(vacancies, filter_words):
     """
-    Фильтрация вакансий.
-    :param vacancies: вакансии
-    :param filter_words: ключевые слова для фильтрации вакансий
+    Filtering Vacancies objects.
+    :param vacancies: Vacancies objects
+    :param filter_words: list of words to filter
     :return:
     """
     raise TypeError(f"! Value type > {vacancies.__class__} < is not correct !")
@@ -17,6 +17,10 @@ def filter_vacancies(vacancies, _):
 
 @filter_vacancies.register
 def _(vacancies: dict, filter_words: list):
+    """
+    Filtering Vacancies objects.
+    :param vacancies: dict with Vacancies objects
+    """
     return {
         k: [
             vacancy
@@ -29,6 +33,10 @@ def _(vacancies: dict, filter_words: list):
 
 @filter_vacancies.register
 def _(vacancies: list, filter_words: list):
+    """
+    Filtering Vacancies objects.
+    :param vacancies: list with Vacancies objects
+    """
     return [
         vacancy
         for vacancy in vacancies

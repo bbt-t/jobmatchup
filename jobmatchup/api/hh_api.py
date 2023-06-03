@@ -1,5 +1,5 @@
-import logging
 from datetime import datetime
+from logging import error as logging_error
 from re import sub
 from urllib import request, error
 
@@ -62,10 +62,15 @@ class HeadHunterAPI:
             with request.urlopen(url) as url:
                 return url.read().decode()
         except error as e:
-            logging.error(f"error :: {repr(e)} ::")
+            logging_error(f"error :: {repr(e)} ::")
 
     @staticmethod
     def _currency_mapping(currency: str) -> str | None:
+        """
+        Mapping currency names.
+        param currency: currency abbreviation
+        return: correct name
+        """
         currency_map: dict = {
             "RUR": "RUB",
             "BYR": "BYN",

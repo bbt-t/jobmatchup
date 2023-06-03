@@ -1,4 +1,4 @@
-import logging
+from logging import info as logging_info
 from json import loads as json_loads
 from urllib import request, error
 
@@ -97,9 +97,9 @@ class SuperJobAPI:
             with request.urlopen(request.Request(url=url, headers=header)) as url:
                 data = url.read().decode()
         except error.HTTPError as e:
-            logging.info(f"{repr(e)}")
+            logging_info(f"{repr(e)}")
             if e.code == 410:
-                logging.info("! Token expired ... try to refresh token ... !")
+                logging_info("! Token expired ... try to refresh token ... !")
                 self._set_new_values()
 
         return data

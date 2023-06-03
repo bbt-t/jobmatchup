@@ -7,7 +7,8 @@ __all__ = ["sort_vacancies_by_salary"]
 @singledispatch
 def sort_vacancies_by_salary(vacancies):
     """
-    :param vacancies:
+    Sorting vacancies.
+    :param vacancies: Vacancy object
     """
     raise TypeError(f"! Value type > {vacancies.__class__} < is not correct !")
 
@@ -15,8 +16,9 @@ def sort_vacancies_by_salary(vacancies):
 @sort_vacancies_by_salary.register
 def _(vacancies: dict):
     """
-    :param vacancies:
-    :return:
+    Sorting vacancies.
+    :param vacancies: dict with Vacancies obj
+    :return: sorted dict
     """
     return {k: sorted(v, key=lambda x: x.salary_min) for k, v in vacancies.items()}
 
@@ -24,7 +26,8 @@ def _(vacancies: dict):
 @sort_vacancies_by_salary.register
 def _(vacancies: list):
     """
-    :param vacancies:
-    :return:
+    Sorting vacancies.
+    :param vacancies: list with Vacancies obj
+    :return: sorted list
     """
     return sorted(vacancies, key=lambda x: x.salary_min)
