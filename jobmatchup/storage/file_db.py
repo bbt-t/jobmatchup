@@ -16,19 +16,27 @@ class JSONSaverFile:
     def __init__(self, file_path: str):
         self.file_path = file_path
 
-    def add_vacancy(self, vacancy: VacancyDefault) -> None:
+    def add_vacancy(self, vacancy: VacancyDefault | list[VacancyDefault, ...]) -> None:
         """
-        Save vacancy in DB.
+        Save vacancy in file.
         :param vacancy: Vacancy object
         """
         with open(self.file_path, "a+") as f:
             try:
                 data = load(f)
             except JSONDecodeError:
-                dump([vacancy.json(by_alias=True)], f)
+                try:
+                    dump([vacancy.json(by_alias=True)], f)
+                except AttributeError:
+                    dump([v.json(by_alias=True) for v in vacancy], f)
             else:
-                data.append(vacancy.json(by_alias=True))
-                dump(data, f)
+                try:
+                    data.append(vacancy.json(by_alias=True))
+                except AttributeError:
+                    for v in vacancy:
+                        data.append(v.json(by_alias=True))
+                finally:
+                    dump(data, f)
 
     def get_vacancies_by_salary(self, salary_min: int) -> list:
         """
@@ -39,7 +47,7 @@ class JSONSaverFile:
         with open(self.file_path) as f:
             data = loads(f.read())
 
-        return [vacancy for vacancy in data if vacancy.get("salary_min") <= salary_min]
+        return [VacancyDefault.parse_obj(vacancy) for vacancy in data if vacancy.get("salary_min") <= salary_min]
 
     def delete_vacancy(self, vacancy_url: str) -> None:
         """
