@@ -15,7 +15,7 @@ class VacancySaverInterface(Protocol):
     Saving data interface.
     """
 
-    def add_vacancy(self, vacancy: VacancyDefault | list[VacancyDefault, ...]) -> None:
+    def add_vacancy(self, vacancy: list | dict) -> None:
         ...
 
     def get_vacancies_by_salary(self, salary_min: int) -> list:
