@@ -1,4 +1,5 @@
-from json import dump, dumps, load, loads, JSONDecodeError
+from json import dump, loads, JSONDecodeError
+from logging import warning as logging_warn
 
 from ..entity.vacancy import VacancyDefault
 
@@ -16,27 +17,53 @@ class JSONSaverFile:
     def __init__(self, file_path: str):
         self.file_path = file_path
 
-    def add_vacancy(self, vacancy: VacancyDefault | list[VacancyDefault, ...]) -> None:
+    def _read(self) -> list | None:
+        """
+        Read file.
+        """
+        try:
+            with open(self.file_path) as f:
+                try:
+                    return loads(f.read())
+                except JSONDecodeError:
+                    logging_warn("! EMPTY file !")
+        except FileNotFoundError as e:
+            logging_warn(e)
+
+    def _dump(self, data):
+        """
+        Write to file.
+        """
+        with open(self.file_path, "w") as f:
+            dump(data, f)
+
+    @staticmethod
+    def _remove_repetitions(data: list) -> list:
+        return [dict(s) for s in set(frozenset(d.items()) for d in data)]
+
+    def add_vacancy(self, vacancy: list | dict) -> None:
         """
         Save vacancy in file.
         :param vacancy: Vacancy object
         """
-        with open(self.file_path, "a+") as f:
-            try:
-                data = load(f)
-            except JSONDecodeError:
-                try:
-                    dump([vacancy.json(by_alias=True)], f)
-                except AttributeError:
-                    dump([v.json(by_alias=True) for v in vacancy], f)
-            else:
-                try:
-                    data.append(vacancy.json(by_alias=True))
-                except AttributeError:
-                    for v in vacancy:
-                        data.append(v.json(by_alias=True))
-                finally:
-                    dump(data, f)
+        data = self._read()
+
+        if data:
+            match vacancy:
+                case list():
+                    data += [v.dict(by_alias=True) for v in vacancy]
+                case dict():
+                    data += [v.dict(by_alias=True) for v in sum(vacancy.values(), [])]
+
+            data = self._remove_repetitions(data)
+        else:
+            match vacancy:
+                case list():
+                    data = [v.dict(by_alias=True) for v in vacancy]
+                case dict():
+                    data = [v.dict(by_alias=True) for v in sum(vacancy.values(), [])]
+
+        self._dump(data)
 
     def get_vacancies_by_salary(self, salary_min: int) -> list:
         """
@@ -59,4 +86,4 @@ class JSONSaverFile:
             for vacancy in data:
                 if vacancy.get("url") == vacancy_url:
                     data.remove(vacancy)
-            f.write(dumps(data))
+            dump(data, f)
