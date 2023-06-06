@@ -1,3 +1,4 @@
+from logging import warning as logging_warn
 from logging import info as logging_info
 from json import loads as json_loads
 from urllib import request, error
@@ -5,7 +6,7 @@ from urllib import request, error
 from ..entity.super_job import SuperJobAPIVacancies
 from ..entity.vacancy import VacancyDefault
 from ..entity.api import AppInfo, TokenInfo
-
+from ..errors.errors import TokenError, UnknownError
 
 __all__ = ["SuperJobAPI"]
 
@@ -42,7 +43,14 @@ class SuperJobAPI:
         return data
 
     def _set_new_values(self):
-        data: dict[str, str | int] = self._refresh_access_info()
+        try:
+            data: dict[str, str | int] = self._refresh_access_info()
+        except error.HTTPError as e:
+            logging_warn(f"{repr(e)}")
+            if e.code == 302:
+                raise TokenError("possible that the registration info is not correct")
+            else:
+                raise UnknownError(e)
         refreshed_valid = TokenInfo(
             token=data["access_token"],
             refresh_token=data["refresh_token"],
