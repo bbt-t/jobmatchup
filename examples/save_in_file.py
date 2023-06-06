@@ -9,3 +9,6 @@ q.get_all()
 for v in q.result.values():
     for vac in v:
         database.db.add_vacancy(vac)
+
+# or
+database.db.add_vacancy(q.get_all())

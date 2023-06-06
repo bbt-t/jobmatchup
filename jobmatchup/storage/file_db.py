@@ -74,7 +74,11 @@ class JSONSaverFile:
         with open(self.file_path) as f:
             data = loads(f.read())
 
-        return [VacancyDefault.parse_obj(vacancy) for vacancy in data if vacancy.get("salary_min") <= salary_min]
+        return [
+            VacancyDefault.parse_obj(vacancy)
+            for vacancy in data
+            if vacancy.get("salary_min") <= salary_min
+        ]
 
     def delete_vacancy(self, vacancy_url: str) -> None:
         """
