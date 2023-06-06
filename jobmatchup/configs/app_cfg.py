@@ -1,7 +1,6 @@
 import logging
 from os import getenv
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
 
 from jobmatchup.entity.api import AuthInfo, AppInfo, TokenInfo

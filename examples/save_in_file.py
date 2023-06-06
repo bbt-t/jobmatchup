@@ -1,4 +1,7 @@
 # create DB config
+from jobmatchup.configs import DBConfig
+from jobmatchup.storage import db
+
 db_cfg = DBConfig()
 
 # make the db-object

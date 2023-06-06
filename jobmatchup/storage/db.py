@@ -3,7 +3,7 @@ from typing import runtime_checkable, Protocol
 
 from .file_db import JSONSaverFile
 from ..configs import DBConfig
-from ..entity import VacancyDefault, FileConfig
+from ..entity import FileConfig
 
 
 __all__ = ["Repository"]
