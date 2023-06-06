@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jobmatchup"
-version = "0.2.2"
+version = "0.3.2"
 description = "Personal Vacancies Parse"
 authors = ["bbt-t <zlukcss@gmail.com>"]
 readme = "README.md"
@@ -28,3 +28,6 @@ flake8-bugbear = "^23.5.9"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88

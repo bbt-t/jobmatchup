@@ -92,6 +92,9 @@ class Query:
         if self._cfg.without_auth:
             raise ValueError("! you can only use >> get_hh << method !")
         if not all(
-            (*self._cfg.token_info.dict().values(), *self._cfg.app_info.dict().values())
+            (
+                *self._cfg.token_info.dict().values(),
+                *self._cfg.app_info.dict().values(),
+            )
         ):
             raise ValueError("! authentication config not found !")

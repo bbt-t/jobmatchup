@@ -1,5 +1,5 @@
 from jobmatchup.api import Query
-from jobmatchup.configs import Config, DBConfig
+from jobmatchup.configs import Config
 
 # create config
 cfg = Config(without_auth=True)
